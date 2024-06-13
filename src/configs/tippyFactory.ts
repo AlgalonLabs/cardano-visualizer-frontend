@@ -1,5 +1,10 @@
-import tippy from 'tippy.js';
+import tippy, { roundArrow } from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
+import { followCursor } from 'tippy.js';
+
+tippy.setDefaultProps({
+    plugins: [followCursor],
+});
 
 export function tippyFactory(ref: any, content: HTMLElement) {
     const dummyDomEle = document.createElement('div');
@@ -8,10 +13,10 @@ export function tippyFactory(ref: any, content: HTMLElement) {
         getReferenceClientRect: ref.getBoundingClientRect,
         trigger: 'manual',
         content: content,
-        arrow: true,
+        arrow: roundArrow,
         placement: 'bottom',
         hideOnClick: false,
-        sticky: 'reference',
+        followCursor: true,
         interactive: true,
         appendTo: document.body,
     });

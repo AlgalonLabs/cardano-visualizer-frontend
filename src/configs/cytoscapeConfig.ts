@@ -26,7 +26,7 @@ export const cytoscapeLayoutOptions: FcoseLayoutOptions = {
     sampleSize: 25,
     nodeSeparation: 75,
     piTol: 0.0000001,
-    nodeRepulsion: (node: NodeSingular) => 6000,
+    nodeRepulsion: (node: NodeSingular) => 7000,
     idealEdgeLength: (edge: EdgeSingular) => 300,
     edgeElasticity: (edge: EdgeSingular) => 0.45,
     nestingFactor: 0.1,
