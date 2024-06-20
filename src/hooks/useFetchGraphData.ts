@@ -79,7 +79,6 @@ const getNodeStyle = (node: Node, address: string): cytoscape.Css.Node => {
                 'text-halign': 'center',
                 'font-size': '10px',
                 'text-wrap': 'wrap',
-                border: '1px solid #FFFFFF'
             };
         case 'Transaction':
             return {
@@ -92,7 +91,6 @@ const getNodeStyle = (node: Node, address: string): cytoscape.Css.Node => {
                 'text-halign': 'center',
                 'font-size': '10px',
                 'text-wrap': 'wrap',
-                border: '1px solid #FFFFFF'
             };
         case 'StakeAddress':
             return {
@@ -105,7 +103,6 @@ const getNodeStyle = (node: Node, address: string): cytoscape.Css.Node => {
                 'text-halign': 'center',
                 'font-size': '10px',
                 'text-wrap': 'wrap',
-                border: '1px solid #FFFFFF'
             };
         default:
             return {};
