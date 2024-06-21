@@ -1,5 +1,5 @@
 import React from 'react';
-import {useFetchAssetDetails} from "../../hooks";
+import {useFetchAssetDetails} from "../hooks";
 
 interface AssetDetailsProps {
     assetId: string;

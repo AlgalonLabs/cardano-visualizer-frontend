@@ -32,6 +32,10 @@
       "dom.iterable",
       "esnext"
     ],
+    "baseUrl": ".", // This tells TypeScript to resolve paths relative to the project root
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
