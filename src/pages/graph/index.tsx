@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import {SnackbarProvider, useSnackbar} from 'notistack';
 import AddressDetails from "@/components/address-details";
 import AssetDetails from "@/components/asset-details";
 import TransactionDetails from "@/components/transaction-details";
@@ -11,13 +11,15 @@ import SearchForm from "@/components/ui/search-form";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
 import {popper} from "@/configs/popper";
+import MainLayout from "@/components/layouts/main-layout";
+import {NextPageWithLayout} from "@/pages/_app";
 
-const GraphPage: React.FC = () => {
-    const [timeRange, setTimeRange] = useState<{ start: string, end: string }>({ start: '', end: '' });
+const GraphPage: NextPageWithLayout = () => {
+    const [timeRange, setTimeRange] = useState<{ start: string, end: string }>({start: '', end: ''});
     const [searchTerm, setSearchTerm] = useState<string>('');
     const searchInputRef = useRef<HTMLInputElement | null>(null);
-    const { graph, isLoading, error, fetchGraphData } = useFetchGraph();
-    const { enqueueSnackbar } = useSnackbar();
+    const {graph, isLoading, error, fetchGraphData} = useFetchGraph();
+    const {enqueueSnackbar} = useSnackbar();
     const [sidebarContent, setSidebarContent] = useState<JSX.Element | null>(null);
 
     useEffect(() => {
@@ -28,7 +30,7 @@ const GraphPage: React.FC = () => {
 
     useEffect(() => {
         if (error) {
-            enqueueSnackbar(error, { variant: 'error' });
+            enqueueSnackbar(error, {variant: 'error'});
         }
     }, [error, enqueueSnackbar]);
 
@@ -39,14 +41,14 @@ const GraphPage: React.FC = () => {
 
     const handleNodeClick = (nodeId: string, nodeType: string) => {
         if (nodeType === 'Address') {
-            setSidebarContent(<AddressDetails address={nodeId} onClose={() => setSidebarContent(null)} />);
+            setSidebarContent(<AddressDetails address={nodeId} onClose={() => setSidebarContent(null)}/>);
         } else if (nodeType === 'Asset') {
-            setSidebarContent(<AssetDetails assetId={nodeId} onClose={() => setSidebarContent(null)} />);
+            setSidebarContent(<AssetDetails assetId={nodeId} onClose={() => setSidebarContent(null)}/>);
         }
     };
 
     const handleEdgeClick = (edgeId: string) => {
-        setSidebarContent(<TransactionDetails txHash={edgeId} onClose={() => setSidebarContent(null)} />);
+        setSidebarContent(<TransactionDetails txHash={edgeId} onClose={() => setSidebarContent(null)}/>);
     };
 
     return (
@@ -57,7 +59,7 @@ const GraphPage: React.FC = () => {
                 height: '100vh',
                 backgroundColor: '#0a0d16'
             }}>
-                <div style={{ flex: 3 }}>
+                <div style={{flex: 3}}>
                     <SearchForm
                         onSubmit={handleFormSubmit}
                         timeRange={timeRange}
@@ -65,11 +67,11 @@ const GraphPage: React.FC = () => {
                         searchInputRef={searchInputRef}
                     />
                     {isLoading ? (
-                        <LoadingSpinner />
+                        <LoadingSpinner/>
                     ) : (
                         <CytoscapeComponent
                             elements={CytoscapeComponent.normalizeElements(graph)}
-                            style={{ width: '100%', height: '100%' }}
+                            style={{width: '100%', height: '100%'}}
                             layout={cytoscapeLayoutOptions}
                             cy={(cy) => {
                                 cy.on('tap', 'node', (event) => {
@@ -92,12 +94,16 @@ const GraphPage: React.FC = () => {
                         />
                     )}
                 </div>
-                <div style={{ flex: 1, padding: '10px', backgroundColor: '#1e2230', color: '#fff' }}>
+                <div style={{flex: 1, padding: '10px', backgroundColor: '#1e2230', color: '#fff'}}>
                     {sidebarContent}
                 </div>
             </div>
         </SnackbarProvider>
     );
+};
+
+GraphPage.getLayout = function getLayout(page: ReactElement) {
+    return <MainLayout>{page}</MainLayout>;
 };
 
 export default GraphPage;
