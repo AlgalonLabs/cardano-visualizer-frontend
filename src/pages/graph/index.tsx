@@ -1,7 +1,6 @@
 'use client';
 
-import React, {ReactElement, useEffect, useRef, useState} from 'react';
-import CytoscapeComponent from 'react-cytoscapejs';
+import React, {useEffect, useRef, useState} from 'react';
 import {SnackbarProvider, useSnackbar} from 'notistack';
 import AddressDetails from "@/components/address-details";
 import AssetDetails from "@/components/asset-details";
@@ -11,10 +10,9 @@ import SearchForm from "@/components/ui/search-form";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
 import {popper} from "@/configs/popper";
-import MainLayout from "@/components/layouts/main-layout";
-import {NextPageWithLayout} from "@/pages/_app";
+import CytoscapeComponent from "react-cytoscapejs";
 
-const GraphPage: NextPageWithLayout = () => {
+const GraphPage: React.FC = () => {
     const [timeRange, setTimeRange] = useState<{ start: string, end: string }>({start: '', end: ''});
     const [searchTerm, setSearchTerm] = useState<string>('');
     const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -100,10 +98,6 @@ const GraphPage: NextPageWithLayout = () => {
             </div>
         </SnackbarProvider>
     );
-};
-
-GraphPage.getLayout = function getLayout(page: ReactElement) {
-    return <MainLayout>{page}</MainLayout>;
 };
 
 export default GraphPage;

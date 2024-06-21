@@ -1,4 +1,7 @@
-import React, {ReactNode} from 'react';
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
+import "./globals.css";
+import {ThemeProvider} from "./theme-provider";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -6,15 +9,31 @@ import {
     NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger
-} from '@/components/ui/navigation-menu';
+} from "@/components/ui/navigation-menu";
+import React from "react";
 
-type MainLayoutProps = {
-    children: ReactNode;
+const inter = Inter({subsets: ["latin"]});
+
+export const metadata: Metadata = {
+    title: "Cardano Visualizer",
+    description: "Cardano's Graph Visualizer",
 };
 
-const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
+export default function RootLayout({
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
-        <div>
+        <html lang="en">
+        <body className={inter.className}>
+
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
             <NavigationMenu>
                 <NavigationMenuList>
                     <NavigationMenuItem>
@@ -37,9 +56,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({children}) => {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            <main>{children}</main>
-        </div>
+            {children}
+        </ThemeProvider>
+        </body>
+        </html>
     );
-};
-
-export default MainLayout;
+}
