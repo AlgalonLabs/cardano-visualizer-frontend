@@ -1,5 +1,5 @@
 import React from 'react';
-import {TimeRange} from "../types";
+import {TimeRange} from "../../types";
 
 interface SearchFormProps {
     onSubmit: (e: React.FormEvent) => void;

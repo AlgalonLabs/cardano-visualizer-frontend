@@ -5,12 +5,12 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import { cytoscapeLayoutOptions } from "../../configs/cytoscapeConfig";
 import { useFetchGraph } from "../../hooks/useFetchGraphData";
-import SearchForm from "../../components/SearchForm";
-import LoadingSpinner from "../../components/LoadingSpinner";
+import SearchForm from "../../components/ui/search-form";
+import LoadingSpinner from "../../components/ui/loading-spinner";
 import { setupPopper } from "../../configs/setupPopper";
-import AddressDetails from "../../components/details/AddressDetails";
-import AssetDetails from "../../components/details/AssetDetails";
-import TransactionDetails from "../../components/details/TransactionDetails";
+import AddressDetails from "../../components/AddressDetails";
+import AssetDetails from "../../components/AssetDetails";
+import TransactionDetails from "../../components/TransactionDetails";
 
 const GraphPage: React.FC = () => {
     const [timeRange, setTimeRange] = useState<{ start: string, end: string }>({ start: '', end: '' });
