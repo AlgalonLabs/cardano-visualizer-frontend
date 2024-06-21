@@ -3,10 +3,10 @@ import cytoscapePopper from "cytoscape-popper";
 import fcose, {FcoseLayoutOptions} from "cytoscape-fcose";
 // @ts-ignore
 import layoutUtilities from 'cytoscape-layout-utilities';
-import {tippyFactory} from "./tippyFactory";
+import {tipperFactory} from "./tipper-factory";
 
 
-cytoscape.use(cytoscapePopper(tippyFactory));
+cytoscape.use(cytoscapePopper(tipperFactory));
 cytoscape.use(fcose);
 cytoscape.use(layoutUtilities);
 

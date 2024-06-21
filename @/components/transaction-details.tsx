@@ -1,5 +1,5 @@
 import React from 'react';
-import {useFetchTransactionDetails} from "../hooks";
+import {useFetchTransactionDetails} from "../../hooks";
 
 interface TransactionDetailsProps {
     txHash: string;

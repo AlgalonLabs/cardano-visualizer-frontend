@@ -1,5 +1,5 @@
 import React from 'react';
-import {useFetchAddressDetails} from "../hooks";
+import {useFetchAddressDetails} from "../../hooks";
 
 
 interface AddressDetailsProps {

@@ -1,8 +1,8 @@
-import { tippyFactory } from './tippyFactory';
+import { tipperFactory } from './tipper-factory';
 import { Core, EdgeSingular } from 'cytoscape';
 import { EdgeData } from '../types';
 
-export const setupPopper = (cy: Core) => {
+export const popper = (cy: Core) => {
     cy.on('mouseover', 'edge', (event) => {
         const edge = event.target as EdgeSingular;
         const ref = edge.popperRef();
@@ -13,7 +13,7 @@ export const setupPopper = (cy: Core) => {
         content.style.padding = '5px';
         content.style.borderRadius = '1px';
 
-        const tip = tippyFactory(ref, content);
+        const tip = tipperFactory(ref, content);
         tip.show();
 
         const updatePosition = (e: MouseEvent) => {

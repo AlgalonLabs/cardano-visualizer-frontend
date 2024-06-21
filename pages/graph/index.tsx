@@ -3,14 +3,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { cytoscapeLayoutOptions } from "../../configs/cytoscapeConfig";
-import { useFetchGraph } from "../../hooks/useFetchGraphData";
-import SearchForm from "../../components/ui/search-form";
-import LoadingSpinner from "../../components/ui/loading-spinner";
-import { setupPopper } from "../../configs/setupPopper";
-import AddressDetails from "../../components/AddressDetails";
-import AssetDetails from "../../components/AssetDetails";
-import TransactionDetails from "../../components/TransactionDetails";
+import { cytoscapeLayoutOptions } from "../../configs/cytoscape";
+import { useFetchGraph } from "../../hooks/use-fetch-graph-data";
+import { popper } from "../../configs/popper";
+import AddressDetails from "../../@/components/address-details";
+import AssetDetails from "../../@/components/asset-details";
+import TransactionDetails from "../../@/components/transaction-details";
+import SearchForm from "../../@/components/ui/search-form";
+import LoadingSpinner from "../../@/components/ui/loading-spinner";
 
 const GraphPage: React.FC = () => {
     const [timeRange, setTimeRange] = useState<{ start: string, end: string }>({ start: '', end: '' });
@@ -82,7 +82,7 @@ const GraphPage: React.FC = () => {
                                     handleEdgeClick(edgeId);
                                 });
 
-                                setupPopper(cy);
+                                popper(cy);
 
                                 cy.on('layoutstop', () => {
                                     cy.center();

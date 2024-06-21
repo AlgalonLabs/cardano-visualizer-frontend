@@ -6,7 +6,7 @@ tippy.setDefaultProps({
     plugins: [followCursor],
 });
 
-export function tippyFactory(ref: any, content: HTMLElement) {
+export function tipperFactory(ref: any, content: HTMLElement) {
     const dummyDomEle = document.createElement('div');
 
     const tip = tippy(dummyDomEle, {
