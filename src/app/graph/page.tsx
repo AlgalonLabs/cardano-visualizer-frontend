@@ -55,7 +55,6 @@ const GraphPage: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 height: '100vh',
-                backgroundColor: '#0a0d16'
             }}>
                 <div style={{flex: 3}}>
                     <SearchForm

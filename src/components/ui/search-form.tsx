@@ -9,25 +9,25 @@ interface SearchFormProps {
 }
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, timeRange, setTimeRange, searchInputRef }) => (
-    <form onSubmit={onSubmit} style={{ marginBottom: '20px' }}>
+    <form onSubmit={onSubmit}>
         <input
             type="text"
             ref={searchInputRef}
-            placeholder="Search for asset or address"
-            style={{ marginRight: '10px', backgroundColor: "gray", color: "white" }}
+            placeholder="Search for an asset, block, address or transaction."
+            style={{ marginRight: '10px' }}
         />
         <input
             type="date"
             value={timeRange.start}
             onChange={(e) => setTimeRange({ ...timeRange, start: e.target.value })}
-            style={{ marginRight: '10px', backgroundColor: "gray", color: "white" }}
+            style={{ marginRight: '10px' }}
         />
         <input
             type="date"
             value={timeRange.end}
             onChange={(e) => setTimeRange({ ...timeRange, end: e.target.value })}
         />
-        <button type="submit" style={{ marginLeft: '10px', backgroundColor: "gray", color: "white" }}>Search</button>
+        <button type="submit" style={{ marginLeft: '10px' }}>Search</button>
     </form>
 );
 
