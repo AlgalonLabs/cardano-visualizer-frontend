@@ -1,25 +1,46 @@
-"use client";
+'use client'
 
-import {ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable,} from "@tanstack/react-table";
-
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
-
+import React from 'react';
+import {
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    getPaginationRowModel,
+    PaginationState,
+    Updater,
+    useReactTable,
+} from "@tanstack/react-table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    pageIndex: number;
+    pageSize: number;
+    totalCount: number;
+    onPageChange: (pagination: Updater<PaginationState>) => void;
 }
 
 export function DataTable<TData, TValue>({
                                              columns,
                                              data,
+                                             pageIndex,
+                                             pageSize,
+                                             totalCount,
+                                             onPageChange,
                                          }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
+        pageCount: Math.ceil(totalCount / pageSize),
+        state: {
+            pagination: {pageIndex, pageSize},
+        },
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        manualPagination: true,
+        onPaginationChange: (pagination) => onPageChange(pagination),
     });
 
     return (
@@ -31,12 +52,7 @@ export function DataTable<TData, TValue>({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <TableHead key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -45,14 +61,10 @@ export function DataTable<TData, TValue>({
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={row.getIsSelected() && "selected"}
-                                >
+                                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
+                                        <TableCell
+                                            key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                                     ))}
                                 </TableRow>
                             ))
@@ -67,19 +79,14 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
+                <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={pageIndex === 0}>
                     Previous
                 </Button>
                 <Button
                     variant="outline"
                     size="sm"
                     onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
+                    disabled={(pageIndex + 1) * pageSize >= totalCount}
                 >
                     Next
                 </Button>
