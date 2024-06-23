@@ -12,6 +12,7 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import {cn} from "@/components/lib/utils";
+import {ModeToggle} from "@/components/ui/mode-toggle";
 
 const blockchainItems: { title: string; href: string; description: string }[] = [
     {title: 'Blocks', href: '/blocks', description: 'View all blocks'},
@@ -54,6 +55,9 @@ export function NavigationBar() {
                                 ))}
                             </ul>
                         </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <ModeToggle/>
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
