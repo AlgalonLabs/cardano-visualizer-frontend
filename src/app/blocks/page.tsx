@@ -1,28 +1,38 @@
-import { Block, columns } from "./columns";
-import { DataTable } from "./data-table";
+'use client';
 
-async function getData(): Promise<Block[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      hash: "abc123",
-      block_no: 1,
-      epoch_no: 1,
-      slot_no: 123,
-      size: 1024,
-      tx_count: 10,
-      time: "2023-01-01T00:00:00Z",
-    },
-    // ...
-  ];
-}
+import React, { useEffect, useState } from 'react';
+import { columns, Block } from './columns';
+import {DataTable} from "@/app/blocks/data-table";
 
-export default async function BlocksPage() {
-  const data = await getData();
+const BlocksPage: React.FC = () => {
+  const [blocks, setBlocks] = useState<Block[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBlocks() {
+      try {
+        const response = await fetch('http://localhost:8002/blocks');
+        const data = await response.json();
+        setBlocks(data);
+      } catch (error) {
+        console.error('Failed to fetch blocks', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchBlocks();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={blocks} />
     </div>
   );
-}
+};
+
+export default BlocksPage;

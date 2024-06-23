@@ -1,28 +1,38 @@
-import { Epoch, columns } from "./columns";
-import { DataTable } from "./data-table";
+'use client';
 
-async function getData(): Promise<Epoch[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      no: 1,
-      start_time: "2023-01-01T00:00:00Z",
-      end_time: "2023-01-02T00:00:00Z",
-      blk_count: 100,
-      tx_count: 1000,
-      out_sum: 1000000,
-      fees: 100,
-    },
-    // ...
-  ];
-}
+import React, { useEffect, useState } from 'react';
+import { columns, Epoch } from './columns';
+import {DataTable} from "@/app/epochs/data-table";
 
-export default async function EpochsPage() {
-  const data = await getData();
+const EpochsPage: React.FC = () => {
+  const [epochs, setEpochs] = useState<Epoch[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchEpochs() {
+      try {
+        const response = await fetch('http://localhost:8002/epochs');
+        const data = await response.json();
+        setEpochs(data);
+      } catch (error) {
+        console.error('Failed to fetch epochs', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchEpochs();
+  }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={epochs} />
     </div>
   );
-}
+};
+
+export default EpochsPage;

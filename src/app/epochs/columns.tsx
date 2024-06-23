@@ -26,7 +26,7 @@ export const columns: ColumnDef<Epoch>[] = [
     header: "End Time",
   },
   {
-    accessorKey: "blk_count",
+    accessorKey: "block_count",
     header: "Block Count",
   },
   {
