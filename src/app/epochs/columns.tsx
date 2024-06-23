@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {MoreHorizontal} from "lucide-react";
+import Link from "next/link";
 
 export type Epoch = {
     no: number;
@@ -26,6 +27,9 @@ export const columns: ColumnDef<Epoch>[] = [
     {
         accessorKey: "no",
         header: "Epoch Number",
+        cell: ({row}) => (
+            <Link href={`/epochs/${row.original.no}`}>{row.original.no}</Link>
+        ),
     },
     {
         accessorKey: "start_time",
@@ -78,7 +82,9 @@ export const columns: ColumnDef<Epoch>[] = [
                             Copy epoch no
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View epoch</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href={`/epochs/${epoch.no}`}>View epoch</Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem>View in Visualizer</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

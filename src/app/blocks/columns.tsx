@@ -5,11 +5,13 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
 import {MoreHorizontal} from "lucide-react";
+import Link from "next/link";
 
 export type Block = {
     hash: string;
@@ -25,7 +27,11 @@ export const columns: ColumnDef<Block>[] = [
     {
         accessorKey: "block_no",
         header: "Block Number",
+        cell: ({row}) => (
+            <Link href={`/blocks/${row.original.hash}`}></Link>
+        ),
     },
+
     {
         accessorKey: "epoch_no",
         header: "Epoch Number",
@@ -70,7 +76,9 @@ export const columns: ColumnDef<Block>[] = [
                             Copy block hash
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View block</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href={`/blocks/${block.hash}`}>View block</Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem>View in Visualizer</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
