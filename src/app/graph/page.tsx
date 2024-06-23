@@ -91,7 +91,7 @@ const GraphPage: React.FC = () => {
                         />
                     )}
                 </div>
-                <div style={{flex: 1, padding: '10px', backgroundColor: '#1e2230', color: '#fff'}}>
+                <div style={{flex: 1, padding: '10px'}}>
                     {sidebarContent}
                 </div>
             </div>

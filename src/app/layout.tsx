@@ -2,13 +2,8 @@ import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "./theme-provider";
-import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList
-} from "@/components/ui/navigation-menu";
 import React from "react";
+import {NavigationBar} from "@/components/navigation-bar";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -28,16 +23,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
             enableSystem
             disableTransitionOnChange
         >
-            <NavigationMenu>
-                <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink href="/">Home</NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink href="/graph">Visualizer</NavigationMenuLink>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
+            <NavigationBar/>
             {children}
         </ThemeProvider>
         </body>
