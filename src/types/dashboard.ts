@@ -2,9 +2,9 @@
 
 export interface AdaData {
   price: number;
-  marketCap: number;
-  volume24h: number;
-  percentChange24h: number;
+  market_cap: number;
+  volume_24h: number;
+  percent_change_24h: number;
 }
 
 export interface TransactionData {

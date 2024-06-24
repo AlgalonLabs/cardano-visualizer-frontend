@@ -55,7 +55,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                     </CardHeader>
                     <CardContent>
                         <p className="text-2xl font-bold">
-                            ${state.adaData?.marketCap ? formatNumber(state.adaData.marketCap) : 'Loading...'}
+                            ${state.adaData?.market_cap ? formatNumber(state.adaData.market_cap) : 'Loading...'}
                         </p>
                     </CardContent>
                 </Card>
@@ -66,7 +66,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                     </CardHeader>
                     <CardContent>
                         <p className="text-2xl font-bold">
-                            ${state.adaData?.volume24h ? formatNumber(state.adaData.volume24h) : 'Loading...'}
+                            ${state.adaData?.volume_24h ? formatNumber(state.adaData.volume_24h) : 'Loading...'}
                         </p>
                     </CardContent>
                 </Card>
@@ -76,8 +76,8 @@ const Dashboard: React.FC<DashboardProps> = () => {
                         <CardTitle>24h Change</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className={`text-2xl font-bold ${state.adaData?.percentChange24h && state.adaData.percentChange24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                            {state.adaData?.percentChange24h ? `${state.adaData.percentChange24h.toFixed(2)}%` : 'Loading...'}
+                        <p className={`text-2xl font-bold ${state.adaData?.percent_change_24h && state.adaData.percent_change_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {state.adaData?.percent_change_24h ? `${state.adaData.percent_change_24h.toFixed(2)}%` : 'Loading...'}
                         </p>
                     </CardContent>
                 </Card>
