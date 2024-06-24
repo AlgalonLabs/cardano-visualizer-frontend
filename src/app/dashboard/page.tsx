@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { AdaData, TransactionData, DashboardProps, DashboardState } from '@/types/dashboard';
+import React, {useEffect, useState} from 'react';
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+import {AdaData, DashboardProps, DashboardState} from '@/types/dashboard';
+import AdvancedSearch from "@/components/advanced-search";
 
 const Dashboard: React.FC<DashboardProps> = () => {
     const [state, setState] = useState<DashboardState>({
@@ -16,7 +17,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
             try {
                 const response = await fetch('http://localhost:8002/cardano/data');
                 const data: AdaData = await response.json();
-                setState(prevState => ({ ...prevState, adaData: data }));
+                setState(prevState => ({...prevState, adaData: data}));
             } catch (error) {
                 console.error('Error fetching ADA data:', error);
             }
@@ -33,9 +34,16 @@ const Dashboard: React.FC<DashboardProps> = () => {
         return num?.toLocaleString() ?? 'N/A';
     };
 
+    const handleSearch = (type: string, term: string, view: 'list' | 'graph') => {
+        console.log(`Searching for ${type}: ${term} in ${view} view`);
+        // Implement your search logic here
+    };
+
     return (
         <div className="p-4 space-y-4">
             <h1 className="text-2xl font-bold">Cardano Dashboard</h1>
+
+            <AdvancedSearch onSearch={handleSearch}/>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <Card>

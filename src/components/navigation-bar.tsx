@@ -11,7 +11,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import {cn} from "@/components/lib/utils";
+import {cn} from "@/lib/utils";
 import {ModeToggle} from "@/components/ui/mode-toggle";
 
 const blockchainItems: { title: string; href: string; description: string }[] = [
