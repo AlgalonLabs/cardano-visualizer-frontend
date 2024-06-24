@@ -1,12 +1,22 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import DetailCard from '@/components/detail-card';
+import { Skeleton } from "@/components/ui/skeleton";
+
+interface EpochDetails {
+  epoch: {
+    out_sum: number;
+    start_time: string;
+    no: number;
+    fees: number;
+    end_time: string;
+  };
+}
 
 const EpochDetailsPage = ({ params }: { params: { no: string } }) => {
-  const router = useRouter();
-  const { no } = params
-  const [epochDetails, setEpochDetails] = useState(null);
+  const { no } = params;
+  const [epochDetails, setEpochDetails] = useState<EpochDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,17 +35,27 @@ const EpochDetailsPage = ({ params }: { params: { no: string } }) => {
   }, [no]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Skeleton className="w-full h-[200px]" />;
   }
 
   if (!epochDetails) {
     return <div>No details available for this epoch.</div>;
   }
 
+  const { epoch } = epochDetails;
+
+  const epochDetailProps = [
+    { label: "Epoch Number", value: epoch.no },
+    { label: "Start Time", value: new Date(epoch.start_time).toLocaleString() },
+    { label: "End Time", value: new Date(epoch.end_time).toLocaleString() },
+    { label: "Total Output", value: `₳ ${epoch.out_sum.toLocaleString()}` },
+    { label: "Total Fees", value: `₳ ${epoch.fees.toLocaleString()}` },
+  ];
+
   return (
-    <div>
-      <h1>Epoch Details for {no}</h1>
-      <pre>{JSON.stringify(epochDetails, null, 2)}</pre>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Epoch Details for {no}</h1>
+      <DetailCard title="Epoch Information" details={epochDetailProps} />
     </div>
   );
 };
