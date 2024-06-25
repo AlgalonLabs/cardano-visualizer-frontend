@@ -4,8 +4,9 @@ import React, {useEffect, useState} from 'react';
 import {Block, columns} from './columns';
 import {DataTable} from "@/app/epochs/data-table";
 import {ColumnDef, PaginationState} from '@tanstack/react-table';
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {CellType} from "@/types/data-table";
+import {Button} from "@/components/ui/button";
 
 const BlocksPage: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
@@ -37,21 +38,6 @@ const BlocksPage: React.FC = () => {
 
     const handleRowClick = (block: Block) => {
         setSelectedBlock(block);
-        setIsSliderOpen(true);
-    };
-
-    const renderCellContent = (value: unknown): React.ReactNode => {
-        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-            return String(value);
-        }
-        if (value === null || value === undefined) {
-            return '';
-        }
-        if (React.isValidElement(value)) {
-            return value;
-        }
-        // For other types, you might want to add more specific rendering logic
-        return JSON.stringify(value);
     };
 
     const enhancedColumns: ColumnDef<Block>[] = columns.map(column => ({
@@ -59,12 +45,22 @@ const BlocksPage: React.FC = () => {
         cell: (props) => {
             const cellContent = (column.cell as CellType<Block>);
             return (
-                <div onClick={() => handleRowClick(props.row.original)} className="cursor-pointer">
-                    {typeof cellContent === 'function'
-                        ? cellContent(props)
-                        : renderCellContent(props.getValue())
-                    }
-                </div>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <div onClick={() => handleRowClick(props.row.original)} className="cursor-pointer">
+                            {typeof cellContent === 'function'
+                                ? cellContent(props)
+                                : props.getValue()
+                            }
+                        </div>
+                    </SheetTrigger>
+                    <SheetContent className="overflow-y-auto">
+                        <SheetHeader>
+                            <SheetTitle className="text-center">Block Details</SheetTitle>
+                        </SheetHeader>
+                        <BlockDetails block={props.row.original}/>
+                    </SheetContent>
+                </Sheet>
             );
         }
     }));
@@ -83,28 +79,58 @@ const BlocksPage: React.FC = () => {
                 totalCount={totalCount}
                 onPageChange={setPagination}
             />
-            <Sheet open={isSliderOpen} onOpenChange={setIsSliderOpen}>
-                <SheetContent>
-                    <SheetHeader>
-                        <SheetTitle>Block Details</SheetTitle>
-                    </SheetHeader>
-                    <SheetDescription>
-                        {selectedBlock && (
-                            <div className="space-y-4">
-                                <p><strong>Block Hash:</strong> {selectedBlock.hash}</p>
-                                <p><strong>Block Number:</strong> {selectedBlock.block_no}</p>
-                                <p><strong>Epoch Number:</strong> {selectedBlock.epoch_no}</p>
-                                <p><strong>Slot Number:</strong> {selectedBlock.slot_no}</p>
-                                <p><strong>Size:</strong> {selectedBlock.size} bytes</p>
-                                <p><strong>Transaction Count:</strong> {selectedBlock.tx_count}</p>
-                                <p><strong>Timestamp:</strong> {new Date(selectedBlock.time).toLocaleString()}</p>
-                            </div>
-                        )}
-                    </SheetDescription>
-                </SheetContent>
-            </Sheet>
         </div>
     );
 };
+
+const BlockDetails: React.FC<{ block: Block }> = ({block}) => (
+    <div className="space-y-6 py-4">
+        <div className="text-center">
+            <div className="inline-block rounded-full border-4 border-blue-500 p-8">
+                <div className="text-4xl font-bold">{block.epoch_no}</div>
+                <div className="text-sm uppercase">Epoch</div>
+            </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gray-100 p-4 rounded-lg text-center">
+                <div className="text-xl font-bold">{block.block_no}</div>
+                <div className="text-sm uppercase">Block</div>
+            </div>
+            <div className="bg-gray-100 p-4 rounded-lg text-center">
+                <div className="text-xl font-bold">{block.slot_no}/56332</div>
+                <div className="text-sm uppercase">Slot</div>
+            </div>
+        </div>
+
+        <div className="space-y-2">
+            <div className="flex justify-between">
+                <span>Block Id</span>
+                <span
+                    className="font-mono text-blue-600">{block.hash.substring(0, 10)}...{block.hash.substring(block.hash.length - 10)}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Absolute Slot</span>
+                <span>{block.slot_no}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Created At</span>
+                <span>{new Date(block.time).toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Transaction Fees</span>
+                <span>{block.tx_count} ₳</span>
+            </div>
+            <div className="flex justify-between">
+                <span>Total Output in ADA</span>
+                <span>{block.size} ₳</span>
+            </div>
+        </div>
+
+        <div className="pt-4">
+            <Button className="w-full">View details</Button>
+        </div>
+    </div>
+);
 
 export default BlocksPage;
