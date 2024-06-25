@@ -1,12 +1,13 @@
 'use client'
 
 import React, {useEffect, useState} from 'react';
-import {Block, columns} from './columns';
+import {columns} from './columns';
 import {DataTable} from "@/app/epochs/data-table";
 import {ColumnDef, PaginationState} from '@tanstack/react-table';
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {CellType} from "@/types/data-table";
-import {Button} from "@/components/ui/button";
+import SheetWrapper from "@/components/sheet-wrapper";
+import BlockDetails from "@/components/block-details";
+import {Block} from "@/types/block";
 
 const BlocksPage: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
@@ -45,22 +46,16 @@ const BlocksPage: React.FC = () => {
         cell: (props) => {
             const cellContent = (column.cell as CellType<Block>);
             return (
-                <Sheet>
-                    <SheetTrigger asChild>
+                <SheetWrapper
+                    trigger={
                         <div onClick={() => handleRowClick(props.row.original)} className="cursor-pointer">
-                            {typeof cellContent === 'function'
-                                ? cellContent(props)
-                                : props.getValue()
-                            }
+                            {typeof cellContent === 'function' ? cellContent(props) : props.getValue()}
                         </div>
-                    </SheetTrigger>
-                    <SheetContent className="overflow-y-auto">
-                        <SheetHeader>
-                            <SheetTitle className="text-center">Block Details</SheetTitle>
-                        </SheetHeader>
-                        <BlockDetails block={props.row.original}/>
-                    </SheetContent>
-                </Sheet>
+                    }
+                    title="Block Details"
+                >
+                    <BlockDetails block={props.row.original}/>
+                </SheetWrapper>
             );
         }
     }));
@@ -82,55 +77,4 @@ const BlocksPage: React.FC = () => {
         </div>
     );
 };
-
-const BlockDetails: React.FC<{ block: Block }> = ({block}) => (
-    <div className="space-y-6 py-4">
-        <div className="text-center">
-            <div className="inline-block rounded-full border-4 border-blue-500 p-8">
-                <div className="text-4xl font-bold">{block.epoch_no}</div>
-                <div className="text-sm uppercase">Epoch</div>
-            </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-            <div className="bg-gray-100 p-4 rounded-lg text-center">
-                <div className="text-xl font-bold">{block.block_no}</div>
-                <div className="text-sm uppercase">Block</div>
-            </div>
-            <div className="bg-gray-100 p-4 rounded-lg text-center">
-                <div className="text-xl font-bold">{block.slot_no}/56332</div>
-                <div className="text-sm uppercase">Slot</div>
-            </div>
-        </div>
-
-        <div className="space-y-2">
-            <div className="flex justify-between">
-                <span>Block Id</span>
-                <span
-                    className="font-mono text-blue-600">{block.hash.substring(0, 10)}...{block.hash.substring(block.hash.length - 10)}</span>
-            </div>
-            <div className="flex justify-between">
-                <span>Absolute Slot</span>
-                <span>{block.slot_no}</span>
-            </div>
-            <div className="flex justify-between">
-                <span>Created At</span>
-                <span>{new Date(block.time).toLocaleString()}</span>
-            </div>
-            <div className="flex justify-between">
-                <span>Transaction Fees</span>
-                <span>{block.tx_count} ₳</span>
-            </div>
-            <div className="flex justify-between">
-                <span>Total Output in ADA</span>
-                <span>{block.size} ₳</span>
-            </div>
-        </div>
-
-        <div className="pt-4">
-            <Button className="w-full">View details</Button>
-        </div>
-    </div>
-);
-
 export default BlocksPage;

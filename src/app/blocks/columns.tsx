@@ -12,16 +12,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {MoreHorizontal} from "lucide-react";
 import Link from "next/link";
-
-export type Block = {
-    hash: string;
-    block_no: number;
-    epoch_no: number;
-    slot_no: number;
-    size: number;
-    tx_count: number;
-    time: string;
-};
+import {Block} from "@/types/block";
 
 export const columns: ColumnDef<Block>[] = [
     {
