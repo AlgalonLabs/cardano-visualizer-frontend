@@ -30,7 +30,7 @@ const AddressDetails: React.FC<AddressDetailsProps> = ({ address, onClose }) => 
                 <div>
                     <p>Address: {addressDetails.address}</p>
                     <p>Balance: {addressDetails.balance}</p>
-                    {/* Render other address details */}
+                    {/* Render other addresses details */}
                 </div>
             )}
         </div>

@@ -14,8 +14,8 @@ export const useFetchAssetDetails = () => {
             const response = await axios.get(`http://localhost:8002/asset/${assetId}`);
             setAssetDetails(response.data);
         } catch (error) {
-            setError('Failed to fetch asset details.');
-            console.error('Error fetching asset details', error);
+            setError('Failed to fetch assets details.');
+            console.error('Error fetching assets details', error);
         } finally {
             setIsLoading(false);
         }

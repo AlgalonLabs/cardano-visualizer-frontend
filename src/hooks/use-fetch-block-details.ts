@@ -14,8 +14,8 @@ export const useFetchBlockDetails = () => {
             const response = await axios.get(`http://localhost:8002/block/${blockHash}`);
             setBlockDetails(response.data);
         } catch (error) {
-            setError('Failed to fetch block details.');
-            console.error('Error fetching block details', error);
+            setError('Failed to fetch blocks details.');
+            console.error('Error fetching blocks details', error);
         } finally {
             setIsLoading(false);
         }

@@ -14,8 +14,8 @@ export const useFetchAddressDetails = () => {
             const response = await axios.get(`http://localhost:8002/address/${address}`);
             setAddressDetails(response.data);
         } catch (error) {
-            setError('Failed to fetch address details.');
-            console.error('Error fetching address details', error);
+            setError('Failed to fetch addresses details.');
+            console.error('Error fetching addresses details', error);
         } finally {
             setIsLoading(false);
         }

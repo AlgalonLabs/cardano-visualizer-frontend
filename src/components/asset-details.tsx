@@ -31,7 +31,7 @@ const AssetDetails: React.FC<AssetDetailsProps> = ({ assetId, onClose }) => {
                     <p>Policy: {assetDetails.policy}</p>
                     <p>Name: {assetDetails.name}</p>
                     <p>Quantity: {assetDetails.quantity}</p>
-                    {/* Render other asset details */}
+                    {/* Render other assets details */}
                 </div>
             )}
         </div>
