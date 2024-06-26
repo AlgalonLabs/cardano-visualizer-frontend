@@ -70,7 +70,9 @@ export const columns: ColumnDef<Block>[] = [
                         <DropdownMenuItem>
                             <Link href={`/blocks/${block.hash}`}>View block</Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>View in Visualizer</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <Link href={`graph/blocks/${block.hash}`}>View in Visualizer</Link>
+                            </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

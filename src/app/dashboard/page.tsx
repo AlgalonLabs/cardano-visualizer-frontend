@@ -5,8 +5,12 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {AdaData, DashboardProps, DashboardState} from '@/types/dashboard';
 import AdvancedSearch from "@/components/advanced-search";
+import {useRouter} from 'next/navigation';
+
 
 const Dashboard: React.FC<DashboardProps> = () => {
+    const router = useRouter();
+
     const [state, setState] = useState<DashboardState>({
         adaData: null,
         transactionData: []
@@ -36,7 +40,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
 
     const handleSearch = (type: string, term: string, view: 'list' | 'graph') => {
         console.log(`Searching for ${type}: ${term} in ${view} view`);
-        // Implement your search logic here
+        router.push(`/graph/blocks/${term}`)
     };
 
     return (
