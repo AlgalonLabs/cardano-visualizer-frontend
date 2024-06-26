@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-table";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -43,9 +44,11 @@ export function DataTable<TData, TValue>({
         onPaginationChange: (pagination) => onPageChange(pagination),
     });
 
+    const pageSizeOptions = [10, 20, 30, 40, 50, 100, 200];
+
     return (
         <div>
-            <div className="rounded-md border">
+            <div className="rounded-md border h-[700px] overflow-auto">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -78,18 +81,47 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={pageIndex === 0}>
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={(pageIndex + 1) * pageSize >= totalCount}
-                >
-                    Next
-                </Button>
+            <div className="flex items-center justify-between space-x-2 py-4">
+                <div className="flex items-center space-x-2">
+                    <span>Show</span>
+                    <Select
+                        value={pageSize.toString()}
+                        onValueChange={(value) => {
+                            const newPageSize = Number(value);
+                            table.setPageSize(newPageSize);
+                            onPageChange({pageIndex: 0, pageSize: newPageSize});
+                        }}
+                    >
+                        <SelectTrigger className="w-[70px]">
+                            <SelectValue placeholder={pageSize}/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            {pageSizeOptions.map((size) => (
+                                <SelectItem key={size} value={size.toString()}>
+                                    {size}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <span>per page</span>
+                </div>
+                <div>
+                    Showing {(pageIndex * pageSize + 1).toLocaleString()} to {Math.min((pageIndex + 1) * pageSize, totalCount).toLocaleString()} of {totalCount.toLocaleString()} results
+
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={pageIndex === 0}>
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={(pageIndex + 1) * pageSize >= totalCount}
+                    >
+                        Next
+                    </Button>
+                </div>
             </div>
         </div>
     );

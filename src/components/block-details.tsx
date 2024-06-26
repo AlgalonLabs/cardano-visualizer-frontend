@@ -3,6 +3,7 @@ import CircularDisplay from "@/components/circular-display";
 import InfoCard from "@/components/info-card";
 import DetailRow from "@/components/detail-row";
 import {Block} from "@/types/block";
+import React from "react";
 
 interface BlockDetailsProps {
     block: Block;

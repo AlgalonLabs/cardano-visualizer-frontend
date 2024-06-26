@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {columns} from './columns';
-import {DataTable} from "@/app/epochs/data-table";
+import {DataTable} from "@/app/blocks/data-table";
 import {ColumnDef, PaginationState} from '@tanstack/react-table';
 import {CellType} from "@/types/data-table";
 import SheetWrapper from "@/components/sheet-wrapper";
@@ -72,7 +72,7 @@ const BlocksPage: React.FC = () => {
                 pageIndex={pagination.pageIndex}
                 pageSize={pagination.pageSize}
                 totalCount={totalCount}
-                onPageChange={setPagination}
+                onPageChange={(newPagination) => setPagination(newPagination)}
             />
         </div>
     );
