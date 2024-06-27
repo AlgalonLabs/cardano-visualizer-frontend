@@ -38,7 +38,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
         return num?.toLocaleString() ?? 'N/A';
     };
 
-    const handleSearch = (type: string, term: string, view: 'list' | 'graph') => {
+    const handleSearch = (type: string, term: string, view: 'table' | 'graph') => {
         console.log(`Searching for ${type}: ${term} in ${view} view`);
         router.push(`/graph/blocks/${term}`)
     };

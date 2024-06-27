@@ -17,7 +17,7 @@ interface BlockDetails {
         slot_leader_id: number;
         hash: string;
     };
-    transactions: any[]; // You might want to define a more specific type for transactions
+    transactions: any[];
     epoch: {
         out_sum: number;
         start_time: string;

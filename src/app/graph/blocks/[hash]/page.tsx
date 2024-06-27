@@ -1,11 +1,15 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import {fetchApi} from "@/utils/api-client";
 import {Loader2} from "lucide-react"
 import {useToast} from "@/hooks/use-toast"
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert"
+import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
+import BlockDetails from "@/components/block-details";
+import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import EpochDetails from "@/components/epoch-details";
 
 interface PageProps {
     params: { hash: string }
@@ -14,6 +18,9 @@ interface PageProps {
 const BlockGraphPage = ({params}: PageProps) => {
     const [elements, setElements] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedNode, setSelectedNode] = useState<any>(null);
+    const [isSliderOpen, setIsSliderOpen] = useState(false);
+
     const {toast} = useToast()
     const {hash} = params;
 
@@ -49,6 +56,12 @@ const BlockGraphPage = ({params}: PageProps) => {
         fetchGraphData();
     }, [hash, toast]);
 
+    const handleNodeClick = useCallback((event: any) => {
+        const node = event.target.data();
+        setSelectedNode(node);
+        setIsSliderOpen(true);
+    }, []);
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -64,7 +77,7 @@ const BlockGraphPage = ({params}: PageProps) => {
                 <CytoscapeComponent
                     elements={elements}
                     style={{width: '100%', height: '600px'}}
-                    layout={{name: 'cose'}}
+                    layout={cytoscapeLayoutOptions}
                     stylesheet={[
                         {
                             selector: 'node',
@@ -101,6 +114,9 @@ const BlockGraphPage = ({params}: PageProps) => {
                             }
                         }
                     ]}
+                    cy={(cy) => {
+                        cy.on('tap', 'node', handleNodeClick);
+                    }}
                 />
             ) : (
                 <Alert variant="destructive">
@@ -110,6 +126,24 @@ const BlockGraphPage = ({params}: PageProps) => {
                     </AlertDescription>
                 </Alert>
             )}
+
+            <Sheet open={isSliderOpen} onOpenChange={setIsSliderOpen}>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>{selectedNode?.type} Details</SheetTitle>
+                    </SheetHeader>
+                    <SheetDescription>
+                        {selectedNode?.type === 'Block' && <BlockDetails block={selectedNode}/>}
+                        {selectedNode?.type === 'Epoch' && <EpochDetails epoch={selectedNode}/>}
+                        {selectedNode?.type === 'Transaction' && (
+                            <div>
+                                <p><strong>Transaction Hash:</strong> {selectedNode.hash}</p>
+                                {/* Add more transaction details as needed */}
+                            </div>
+                        )}
+                    </SheetDescription>
+                </SheetContent>
+            </Sheet>
         </div>
     );
 };

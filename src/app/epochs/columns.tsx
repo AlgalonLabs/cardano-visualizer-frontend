@@ -12,16 +12,9 @@ import {
 import {Button} from "@/components/ui/button";
 import {MoreHorizontal} from "lucide-react";
 import Link from "next/link";
+import {Epoch} from "@/types/epoch";
 
-export type Epoch = {
-    no: number;
-    start_time: string;
-    end_time: string;
-    blk_count: number;
-    tx_count: number;
-    out_sum: number;
-    fees: number;
-};
+
 
 export const columns: ColumnDef<Epoch>[] = [
     {

@@ -1,5 +1,3 @@
-// File: types/dashboard.ts
-
 export interface AdaData {
   price: number;
   market_cap: number;
@@ -13,7 +11,6 @@ export interface TransactionData {
 }
 
 export interface DashboardProps {
-  // Add any props here if needed in the future
 }
 
 export interface DashboardState {

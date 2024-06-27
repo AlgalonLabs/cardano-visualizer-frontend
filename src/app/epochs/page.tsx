@@ -1,10 +1,12 @@
 'use client'
 
 import React, {useEffect, useState} from 'react';
-import {columns, Epoch} from './columns';
+import {columns} from './columns';
 import {DataTable} from "@/app/epochs/data-table";
 import {CellContext, ColumnDef, PaginationState} from '@tanstack/react-table';
-import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {Sheet, SheetContent} from "@/components/ui/sheet";
+import EpochDetails from "@/components/epoch-details";
+import {Epoch} from "@/types/epoch";
 
 type CellType<T> = string | ((props: CellContext<T, unknown>) => React.ReactNode);
 
@@ -51,7 +53,6 @@ const EpochsPage: React.FC = () => {
         if (React.isValidElement(value)) {
             return value;
         }
-        // For other types, you might want to add more specific rendering logic
         return JSON.stringify(value);
     };
 
@@ -86,23 +87,7 @@ const EpochsPage: React.FC = () => {
             />
             <Sheet open={isSliderOpen} onOpenChange={setIsSliderOpen}>
                 <SheetContent>
-                    <SheetHeader>
-                        <SheetTitle>Epoch Details</SheetTitle>
-                    </SheetHeader>
-                    <SheetDescription>
-                        {selectedEpoch && (
-                            <div className="space-y-4">
-                                <p><strong>Epoch Number:</strong> {selectedEpoch.no}</p>
-                                <p><strong>Start Time:</strong> {new Date(selectedEpoch.start_time).toLocaleString()}
-                                </p>
-                                <p><strong>End Time:</strong> {new Date(selectedEpoch.end_time).toLocaleString()}</p>
-                                <p><strong>Block Count:</strong> {selectedEpoch.blk_count}</p>
-                                <p><strong>Transaction Count:</strong> {selectedEpoch.tx_count}</p>
-                                <p><strong>Total Output:</strong> {selectedEpoch.out_sum.toFixed(2)} ₳</p>
-                                <p><strong>Total Fees:</strong> {selectedEpoch.fees.toFixed(2)} ₳</p>
-                            </div>
-                        )}
-                    </SheetDescription>
+                    {selectedEpoch && <EpochDetails epoch={selectedEpoch}/>}
                 </SheetContent>
             </Sheet>
         </div>
