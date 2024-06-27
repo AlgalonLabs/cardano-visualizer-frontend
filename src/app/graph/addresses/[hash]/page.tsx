@@ -1,25 +1,27 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { fetchApi } from "@/utils/api-client";
-import { useToast } from "@/hooks/use-toast";
-import { LoadingSpinner, Alert, Sheet } from "@/components/ui";
-import { cytoscapeLayoutOptions } from "@/configs/cytoscape";
+import {fetchApi} from "@/utils/api-client";
+import {useToast} from "@/hooks/use-toast";
+import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
 import AddressDetails from "@/components/address-details";
+import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {Alert} from "@/components/ui/alert";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 
 interface PageProps {
     params: { hash: string }
 }
 
-const AddressGraphPage: React.FC<PageProps> = ({ params }) => {
+const AddressGraphPage: React.FC<PageProps> = ({params}) => {
     const [elements, setElements] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedNode, setSelectedNode] = useState<any>(null);
     const [isSliderOpen, setIsSliderOpen] = useState(false);
 
-    const { toast } = useToast();
-    const { hash } = params;
+    const {toast} = useToast();
+    const {hash} = params;
 
     useEffect(() => {
         const fetchGraphData = async () => {
@@ -28,11 +30,11 @@ const AddressGraphPage: React.FC<PageProps> = ({ params }) => {
                 const data = await fetchApi(`/graph/addresses/${hash}`);
                 const cyElements = [
                     ...data.nodes.map((node: any) => ({
-                        data: { id: node.id, ...node },
+                        data: {id: node.id, ...node},
                         classes: node.type
                     })),
                     ...data.edges.map((edge: any) => ({
-                        data: { source: edge.from_address, target: edge.to_address, type: edge.type }
+                        data: {source: edge.from_address, target: edge.to_address, type: edge.type}
                     }))
                 ];
                 setElements(cyElements);
@@ -58,7 +60,7 @@ const AddressGraphPage: React.FC<PageProps> = ({ params }) => {
     }, []);
 
     if (isLoading) {
-        return <LoadingSpinner />;
+        return <LoadingSpinner/>;
     }
 
     return (
@@ -67,7 +69,7 @@ const AddressGraphPage: React.FC<PageProps> = ({ params }) => {
             {elements.length > 0 ? (
                 <CytoscapeComponent
                     elements={elements}
-                    style={{ width: '100%', height: '600px' }}
+                    style={{width: '100%', height: '600px'}}
                     layout={cytoscapeLayoutOptions}
                     stylesheet={[
                         {
@@ -117,18 +119,19 @@ const AddressGraphPage: React.FC<PageProps> = ({ params }) => {
                     }}
                 />
             ) : (
-                <Alert variant="destructive" title="No Data" description="No graph data available for this address." />
+                <Alert variant="destructive" title="No Data"/>
             )}
 
             <Sheet open={isSliderOpen} onOpenChange={setIsSliderOpen}>
-                <Sheet.Content>
-                    <Sheet.Header>
-                        <Sheet.Title>{selectedNode?.type} Details</Sheet.Title>
-                    </Sheet.Header>
-                    <Sheet.Description>
-                        {selectedNode?.type === 'Address' && <AddressDetails address={selectedNode} />}
-                    </Sheet.Description>
-                </Sheet.Content>
+                <SheetContent>
+                    <SheetHeader>
+                        <SheetTitle>{selectedNode?.type} Details</SheetTitle>
+                    </SheetHeader>
+                    <SheetDescription>
+                        {selectedNode?.type === 'Address' &&
+                            <AddressDetails address={selectedNode} onClose={() => setIsSliderOpen(false)}/>}
+                    </SheetDescription>
+                </SheetContent>
             </Sheet>
         </div>
     );
