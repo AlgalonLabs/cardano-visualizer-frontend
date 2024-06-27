@@ -8,11 +8,11 @@ export const useFetchGraph = (initialState: Graph = { nodes: [], edges: [] }) =>
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchGraphData = async (address: string, timeRange: { start: string, end: string }) => {
+    const fetchGraphData = async (address: string, timeRange: { start: string, end: string }, resourceType: string) => {
         setIsLoading(true);
         setError(null);
         try {
-            const response = await axios.get(`http://localhost:8002/graph/address/${address}`, {
+            const response = await axios.get(`http://localhost:8002/graph/${resourceType}/${address}`, {
                 params: {
                     start_time: timeRange.start,
                     end_time: timeRange.end
