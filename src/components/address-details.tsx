@@ -1,9 +1,10 @@
 import React from 'react';
 import {useFetchAddressDetails} from "../hooks";
+import {Address} from "@/types/address";
 
 
 interface AddressDetailsProps {
-    address: string;
+    address: Address;
     onClose: () => void;
 }
 
@@ -11,7 +12,7 @@ const AddressDetails: React.FC<AddressDetailsProps> = ({ address, onClose }) => 
     const { addressDetails, isLoading, error, fetchAddressDetails } = useFetchAddressDetails();
 
     React.useEffect(() => {
-        fetchAddressDetails(address);
+        fetchAddressDetails(address.id);
     }, [address]);
 
     if (isLoading) {
