@@ -1,33 +1,20 @@
 import React from 'react';
-import { TimeRange } from '../../types';
+import {Button} from "@/components/ui/button";
 
 interface SearchFormProps {
     onSubmit: (e: React.FormEvent) => void;
-    timeRange: TimeRange;
-    setTimeRange: React.Dispatch<React.SetStateAction<{ start: string, end: string }>>;
     searchInputRef: React.RefObject<HTMLInputElement>;
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({ onSubmit, timeRange, setTimeRange, searchInputRef }) => (
+const SearchForm: React.FC<SearchFormProps> = ({onSubmit, searchInputRef}) => (
     <form onSubmit={onSubmit}>
         <input
             type="text"
             ref={searchInputRef}
-            placeholder="Search for an asset, block, address or transaction."
-            style={{ marginRight: '10px' }}
+            placeholder="Search for an asset, block, address, epoch, or transaction."
+            style={{width: '70%', padding: '10px', marginBottom: '10px'}}
         />
-        <input
-            type="date"
-            value={timeRange.start}
-            onChange={(e) => setTimeRange({ ...timeRange, start: e.target.value })}
-            style={{ marginRight: '10px' }}
-        />
-        <input
-            type="date"
-            value={timeRange.end}
-            onChange={(e) => setTimeRange({ ...timeRange, end: e.target.value })}
-        />
-        <button type="submit" style={{ marginLeft: '10px' }}>Search</button>
+        <Button type="submit" style={{padding: '10px'}}>Search</Button>
     </form>
 );
 
