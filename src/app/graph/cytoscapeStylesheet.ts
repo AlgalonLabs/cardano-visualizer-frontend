@@ -7,15 +7,18 @@ export const cytoscapeStylesheet = [
             'text-halign': 'center',
             'text-wrap': 'ellipsis',
             'text-max-width': '100px',
-            'font-size': '10px',
-            'width': '30px',
-            'height': '30px'
+            'font-size': '12px',
+            'width': '40px',
+            'height': '40px',
+            'border-width': 2,
+            'border-color': '#000'
         }
     },
     {
         selector: 'node.Address',
         style: {
-            'background-color': '#A7C7E7', // Light pastel blue
+            'background-color': '#A7C7E7',
+            'shape': 'round-rectangle',
             'label': function (ele) {
                 const id = ele.data('id');
                 return id.substring(0, 6) + '...' + id.substring(id.length - 4);
@@ -25,7 +28,8 @@ export const cytoscapeStylesheet = [
     {
         selector: 'node.Transaction',
         style: {
-            'background-color': '#FFD8B1', // Light pastel orange
+            'background-color': '#FFD8B1',
+            'shape': 'diamond',
             'label': function (ele) {
                 const hash = ele.data('id');
                 return hash.substring(0, 6) + '...' + hash.substring(hash.length - 4);
@@ -33,27 +37,10 @@ export const cytoscapeStylesheet = [
         }
     },
     {
-        selector: 'node.Block',
-        style: {
-            'background-color': '#B1F0B1', // Light pastel green
-            'label': function (ele) {
-                return 'Block ' + ele.data('block_no');
-            }
-        }
-    },
-    {
-        selector: 'node.Epoch',
-        style: {
-            'background-color': '#D7BDE2', // Light pastel purple
-            'label': function (ele) {
-                return 'Epoch ' + ele.data('no');
-            }
-        }
-    },
-    {
         selector: 'node.UTXO',
         style: {
-            'background-color': '#FFF0F5', // Lavender blush
+            'background-color': '#FFF0F5',
+            'shape': 'ellipse',
             'label': function (ele) {
                 const id = ele.data('id');
                 return 'UTXO ' + id.substring(0, 4) + '...' + id.substring(id.length - 4);
@@ -63,7 +50,8 @@ export const cytoscapeStylesheet = [
     {
         selector: 'node.StakeAddress',
         style: {
-            'background-color': '#E6E6FA', // Lavender
+            'background-color': '#E6E6FA',
+            'shape': 'octagon',
             'label': function (ele) {
                 const id = ele.data('id');
                 return 'Stake ' + id.substring(0, 4) + '...' + id.substring(id.length - 4);
@@ -73,12 +61,12 @@ export const cytoscapeStylesheet = [
     {
         selector: 'edge',
         style: {
-            'width': 2,
+            'width': 3,
             'line-color': '#ccc',
             'target-arrow-color': '#ccc',
             'target-arrow-shape': 'triangle',
             'label': 'data(type)',
-            'font-size': '8px',
+            'font-size': '10px',
             'text-rotation': 'autorotate',
             'text-margin-y': -10
         }

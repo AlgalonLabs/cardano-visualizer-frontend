@@ -75,7 +75,7 @@ const AddressGraphPage: React.FC<PageProps> = ({params}) => {
             {elements.length > 0 ? (
                 <CytoscapeComponent
                     elements={elements}
-                    style={{width: '100%', height: '600px'}}
+                    style={{width: '100%', height: '800px'}}
                     layout={cytoscapeLayoutOptions}
                     stylesheet={cytoscapeStylesheet}
                     cy={(cy) => {
