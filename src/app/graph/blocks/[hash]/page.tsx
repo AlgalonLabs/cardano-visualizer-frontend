@@ -10,6 +10,7 @@ import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
 import BlockDetails from "@/components/block-details";
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
 import EpochDetails from "@/components/epoch-details";
+import {cytoscapeStylesheet} from "@/app/graph/cytoscapeStylesheet";
 
 interface PageProps {
     params: { hash: string }
@@ -78,42 +79,7 @@ const BlockGraphPage = ({params}: PageProps) => {
                     elements={elements}
                     style={{width: '100%', height: '600px'}}
                     layout={cytoscapeLayoutOptions}
-                    stylesheet={[
-                        {
-                            selector: 'node',
-                            style: {
-                                'background-color': '#666',
-                                'label': 'data(id)'
-                            }
-                        },
-                        {
-                            selector: 'node.Block',
-                            style: {
-                                'background-color': '#6FB1FC'
-                            }
-                        },
-                        {
-                            selector: 'node.Transaction',
-                            style: {
-                                'background-color': '#EDA1ED'
-                            }
-                        },
-                        {
-                            selector: 'node.Epoch',
-                            style: {
-                                'background-color': '#86B342'
-                            }
-                        },
-                        {
-                            selector: 'edge',
-                            style: {
-                                'width': 3,
-                                'line-color': '#ccc',
-                                'target-arrow-color': '#ccc',
-                                'target-arrow-shape': 'triangle'
-                            }
-                        }
-                    ]}
+                    stylesheet={cytoscapeStylesheet}
                     cy={(cy) => {
                         cy.on('tap', 'node', handleNodeClick);
                     }}
