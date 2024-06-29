@@ -76,6 +76,7 @@ export const cytoscapeStylesheet = [
         style: {
             'line-color': '#FFB3BA', // Light pastel red
             'target-arrow-color': '#FFB3BA',
+            'target-arrow-shape': 'triangle',
         }
     },
     {
@@ -83,6 +84,7 @@ export const cytoscapeStylesheet = [
         style: {
             'line-color': '#BAFFC9', // Light pastel green
             'target-arrow-color': '#BAFFC9',
+            'target-arrow-shape': 'triangle',
         }
     },
     {
@@ -90,6 +92,7 @@ export const cytoscapeStylesheet = [
         style: {
             'line-color': '#BAE1FF', // Light pastel blue
             'target-arrow-color': '#BAE1FF',
+            'target-arrow-shape': 'triangle',
         }
     },
     {
@@ -97,6 +100,7 @@ export const cytoscapeStylesheet = [
         style: {
             'line-color': '#E6E6FA', // Lavender
             'target-arrow-color': '#E6E6FA',
+            'target-arrow-shape': 'triangle',
         }
     },
     {
@@ -104,6 +108,7 @@ export const cytoscapeStylesheet = [
         style: {
             'line-color': '#FFFFBA', // Light pastel yellow
             'target-arrow-color': '#FFFFBA',
+            'target-arrow-shape': 'triangle',
         }
     }
 ];

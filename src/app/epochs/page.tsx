@@ -5,7 +5,7 @@ import {columns} from './columns';
 import {DataTable} from "@/app/epochs/data-table";
 import {CellContext, ColumnDef, PaginationState} from '@tanstack/react-table';
 import {Sheet, SheetContent} from "@/components/ui/sheet";
-import EpochDetails from "@/components/epoch-details";
+import EpochDetails from "@/components/details/epoch-details";
 import {Epoch} from "@/types/epoch";
 
 type CellType<T> = string | ((props: CellContext<T, unknown>) => React.ReactNode);

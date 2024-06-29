@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import DetailCard from '@/components/detail-card';
+import DetailCard from '@/components/ui/detail-card';
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface EpochDetails {

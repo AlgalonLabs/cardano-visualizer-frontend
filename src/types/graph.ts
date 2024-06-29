@@ -1,8 +1,3 @@
-export interface NodeData {
-    id: string;
-    label: string;
-}
-
 export interface EdgeData {
     id: string;
     source: string;
@@ -10,13 +5,6 @@ export interface EdgeData {
     value: number;
     timestamp: string;
     tx_hash: string;
-}
-
-export interface GraphElement {
-    data: NodeData | EdgeData;
-    style?: {
-        [key: string]: string | number;
-    };
 }
 
 export interface TimeRange {
@@ -37,7 +25,7 @@ export interface Edge {
     id: string;
     from_address: string;
     to_address: string;
-    type: 'INPUT_TRANSACTION' | 'OUTPUT_TRANSACTION' | 'STAKE';
+    type: 'INPUT' | 'OUTPUT' | 'STAKE' | 'OWNS';
     value?: number;
     timestamp?: string;
 }

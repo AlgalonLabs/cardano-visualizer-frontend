@@ -5,7 +5,7 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import {fetchApi} from "@/utils/api-client";
 import {useToast} from "@/hooks/use-toast";
 import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
-import AddressDetails from "@/components/address-details";
+import AddressDetails from "@/components/details/address-details";
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
 import {Alert} from "@/components/ui/alert";
 import LoadingSpinner from "@/components/ui/loading-spinner";
@@ -93,7 +93,7 @@ const AddressGraphPage: React.FC<PageProps> = ({params}) => {
                     </SheetHeader>
                     <SheetDescription>
                         {selectedNode?.type === 'Address' &&
-                            <AddressDetails address={selectedNode} onClose={() => setIsSliderOpen(false)}/>}
+                            <AddressDetails addressHash={selectedNode.id}/>}
                     </SheetDescription>
                 </SheetContent>
             </Sheet>

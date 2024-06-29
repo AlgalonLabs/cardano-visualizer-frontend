@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 import {AdaData, DashboardProps, DashboardState} from '@/types/dashboard';
-import AdvancedSearch from "@/components/advanced-search";
+import AdvancedSearch from "@/components/ui/advanced-search";
 import {useRouter} from 'next/navigation';
 
 

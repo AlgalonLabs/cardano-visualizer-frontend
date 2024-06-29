@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button} from "@/components/ui/button";
-import CircularDisplay from "@/components/circular-display";
-import InfoCard from "@/components/info-card";
-import DetailRow from "@/components/detail-row";
+import CircularDisplay from "@/components/ui/circular-display";
+import InfoCard from "@/components/ui/info-card";
+import DetailRow from "@/components/ui/detail-row";
 import {Epoch} from "@/types/epoch";
 import {useRouter} from "next/navigation";
 

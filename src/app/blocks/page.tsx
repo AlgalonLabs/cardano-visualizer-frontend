@@ -5,8 +5,8 @@ import {columns} from './columns';
 import {DataTable} from "@/app/blocks/data-table";
 import {ColumnDef, PaginationState} from '@tanstack/react-table';
 import {CellType} from "@/types/data-table";
-import SheetWrapper from "@/components/sheet-wrapper";
-import BlockDetails from "@/components/block-details";
+import SheetWrapper from "@/components/ui/sheet-wrapper";
+import BlockDetails from "@/components/details/block-details";
 import {Block} from "@/types/block";
 
 const BlocksPage: React.FC = () => {

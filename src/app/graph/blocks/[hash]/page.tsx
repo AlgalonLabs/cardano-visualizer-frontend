@@ -7,9 +7,9 @@ import {Loader2} from "lucide-react"
 import {useToast} from "@/hooks/use-toast"
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert"
 import {cytoscapeLayoutOptions} from "@/configs/cytoscape";
-import BlockDetails from "@/components/block-details";
+import BlockDetails from "@/components/details/block-details";
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
-import EpochDetails from "@/components/epoch-details";
+import EpochDetails from "@/components/details/epoch-details";
 import {cytoscapeStylesheet} from "@/app/graph/cytoscapeStylesheet";
 
 interface PageProps {

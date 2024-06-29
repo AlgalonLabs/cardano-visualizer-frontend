@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {useRouter} from 'next/navigation';
-import AdvancedSearch from "@/components/advanced-search";
+import AdvancedSearch from "@/components/ui/advanced-search";
 
 const GraphPage: React.FC = () => {
     const router = useRouter();

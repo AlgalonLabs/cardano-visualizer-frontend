@@ -30,7 +30,7 @@ export function NavigationBar() {
             <NavigationMenu orientation={"horizontal"}>
                 <NavigationMenuList>
                     <NavigationMenuItem>
-                        <Link href="/" legacyBehavior passHref>
+                        <Link href="/public" legacyBehavior passHref>
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>Home</NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>
