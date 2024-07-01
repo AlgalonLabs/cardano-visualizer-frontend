@@ -43,11 +43,11 @@ const TransactionDetailsComponent: React.FC<TransactionDetailsProps> = ({transac
                 const data = await fetchApi(`/transaction/${transactionHash}`);
                 setTransaction(data);
             } catch (error) {
-                console.error('Failed to fetch transaction details:', error);
-                setError('Failed to load transaction details. Please try again later.');
+                console.error('Failed to fetch transactions details:', error);
+                setError('Failed to load transactions details. Please try again later.');
                 toast({
                     title: "Error",
-                    description: "Failed to load transaction details. Please try again later.",
+                    description: "Failed to load transactions details. Please try again later.",
                     variant: "destructive",
                 });
             } finally {

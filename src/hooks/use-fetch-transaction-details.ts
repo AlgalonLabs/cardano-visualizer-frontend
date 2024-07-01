@@ -14,8 +14,8 @@ export const useFetchTransactionDetails = () => {
             const response = await axios.get(`http://localhost:8002/transaction/${transactionHash}`);
             setTransactionDetails(response.data);
         } catch (error) {
-            setError('Failed to fetch transaction details.');
-            console.error('Error fetching transaction details', error);
+            setError('Failed to fetch transactions details.');
+            console.error('Error fetching transactions details', error);
         } finally {
             setIsLoading(false);
         }

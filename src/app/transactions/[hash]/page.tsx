@@ -42,13 +42,13 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
         const fetchTransactionDetails = async () => {
             setIsLoading(true);
             try {
-                const data = await fetchApi(`/transaction/${hash}`);
+                const data = await fetchApi(`/transactions/${hash}`);
                 setTransactionData(data);
             } catch (error) {
-                console.error('Failed to fetch transaction details:', error);
+                console.error('Failed to fetch transactions details:', error);
                 toast({
                     title: "Error",
-                    description: "Failed to load transaction details. Please try again later.",
+                    description: "Failed to load transactions details. Please try again later.",
                     variant: "destructive",
                 });
             } finally {
@@ -59,7 +59,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
         fetchTransactionDetails();
     }, [hash, toast]);
 
-    const copyToClipboard = (text) => {
+    const copyToClipboard = (text: any) => {
         navigator.clipboard.writeText(text).then(() => {
             toast({
                 title: "Copied to clipboard",

@@ -104,7 +104,7 @@ const BlockGraphPage = ({params}: PageProps) => {
                         {selectedNode?.type === 'Transaction' && (
                             <div>
                                 <p><strong>Transaction Hash:</strong> {selectedNode.hash}</p>
-                                {/* Add more transaction details as needed */}
+                                {/* Add more transactions details as needed */}
                             </div>
                         )}
                     </SheetDescription>
