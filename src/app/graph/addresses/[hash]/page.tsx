@@ -10,7 +10,6 @@ import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/
 import {Alert} from "@/components/ui/alert";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import {cytoscapeStylesheet} from "@/app/graph/cytoscapeStylesheet";
-import {ApiError} from "next/dist/server/api-utils";
 
 interface PageProps {
     params: { hash: string }
@@ -45,7 +44,7 @@ const AddressGraphPage: React.FC<PageProps> = ({params}) => {
                     }))
                 ];
                 setElements(cyElements);
-            } catch (error: ApiError) {
+            } catch (error: any) {
                 console.error('Failed to fetch graph data:', error);
                 toast({
                     title: "Error",
