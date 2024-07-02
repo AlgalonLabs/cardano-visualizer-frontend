@@ -7,6 +7,7 @@ import {fetchApi} from "@/utils/api-client";
 import {useToast} from "@/hooks/use-toast";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import {ClipboardIcon} from '@heroicons/react/24/outline';
+import Link from "next/link";
 
 interface UTXOInfo {
     address: string;
@@ -31,6 +32,7 @@ interface TransactionDetails {
 interface PageProps {
     params: { hash: string }
 }
+
 const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
     const [transactionData, setTransactionData] = useState<TransactionDetails | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -58,6 +60,11 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
 
         fetchTransactionDetails();
     }, [hash, toast]);
+
+    const shortenAddress = (address: string) => {
+        return `${address.slice(0, 8)}...${address.slice(-8)}`;
+    };
+
 
     const copyToClipboard = (text: any) => {
         navigator.clipboard.writeText(text).then(() => {
@@ -126,6 +133,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                 <TableHead>Address</TableHead>
                                 <TableHead>Stake Address</TableHead>
                                 <TableHead>Amount</TableHead>
+                                <TableHead>UTXO Hash</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -133,7 +141,10 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                 <TableRow key={index}>
                                     <TableCell>
                                         <div className="flex items-center">
-                                            <span className="truncate">{input.address}</span>
+                                            <Link href={`/addresses/${input.address}`}
+                                                  className="text-blue-500 hover:underline">
+                                                {shortenAddress(input.address)}
+                                            </Link>
                                             <button onClick={() => copyToClipboard(input.address)}
                                                     className="ml-2 text-blue-500 hover:text-blue-600">
                                                 <ClipboardIcon className="h-4 w-4"/>
@@ -141,15 +152,32 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                         </div>
                                     </TableCell>
                                     <TableCell>
+                                        {input.stake_address && (
+                                            <div className="flex items-center">
+                                                <Link href={`/addresses/${input.stake_address}`}
+                                                      className="text-blue-500 hover:underline">
+                                                    {shortenAddress(input.stake_address)}
+                                                </Link>
+                                                <button onClick={() => copyToClipboard(input.stake_address)}
+                                                        className="ml-2 text-blue-500 hover:text-blue-600">
+                                                    <ClipboardIcon className="h-4 w-4"/>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </TableCell>
+                                    <TableCell>{input.amount} ADA</TableCell>
+                                    <TableCell>
                                         <div className="flex items-center">
-                                            <span className="truncate">{input.stake_address}</span>
-                                            <button onClick={() => copyToClipboard(input.stake_address)}
+                                            <Link href={`/transactions/${input.utxo_hash}`}
+                                                  className="text-blue-500 hover:underline">
+                                                {shortenAddress(input.utxo_hash)}
+                                            </Link>
+                                            <button onClick={() => copyToClipboard(input.utxo_hash)}
                                                     className="ml-2 text-blue-500 hover:text-blue-600">
                                                 <ClipboardIcon className="h-4 w-4"/>
                                             </button>
                                         </div>
                                     </TableCell>
-                                    <TableCell>{input.amount} ADA</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -175,7 +203,10 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                 <TableRow key={index}>
                                     <TableCell>
                                         <div className="flex items-center">
-                                            <span className="truncate">{output.address}</span>
+                                            <Link href={`/addresses/${output.address}`}
+                                                  className="text-blue-500 hover:underline">
+                                                {shortenAddress(output.address)}
+                                            </Link>
                                             <button onClick={() => copyToClipboard(output.address)}
                                                     className="ml-2 text-blue-500 hover:text-blue-600">
                                                 <ClipboardIcon className="h-4 w-4"/>
@@ -183,13 +214,18 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="flex items-center">
-                                            <span className="truncate">{output.stake_address}</span>
-                                            <button onClick={() => copyToClipboard(output.stake_address)}
-                                                    className="ml-2 text-blue-500 hover:text-blue-600">
-                                                <ClipboardIcon className="h-4 w-4"/>
-                                            </button>
-                                        </div>
+                                        {output.stake_address && (
+                                            <div className="flex items-center">
+                                                <Link href={`/addresses/${output.stake_address}`}
+                                                      className="text-blue-500 hover:underline">
+                                                    {shortenAddress(output.stake_address)}
+                                                </Link>
+                                                <button onClick={() => copyToClipboard(output.stake_address)}
+                                                        className="ml-2 text-blue-500 hover:text-blue-600">
+                                                    <ClipboardIcon className="h-4 w-4"/>
+                                                </button>
+                                            </div>
+                                        )}
                                     </TableCell>
                                     <TableCell>{output.amount} ADA</TableCell>
                                 </TableRow>
