@@ -11,6 +11,7 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import {shortenAddress} from "@/utils/address";
 import {UTXOInfo, TransactionDetails} from "@/types/transaction";
 import {calculateTotal} from "@/utils/transactions";
+import Link from "next/link";
 
 interface PageProps {
     params: { hash: string }
@@ -67,7 +68,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="flex items-center mb-4">
-                <ArrowLeftIcon className="h-6 w-6 mr-2 cursor-pointer" onClick={() => { /* Add navigation logic */
+                <ArrowLeftIcon className="h-6 w-6 mr-2 cursor-pointer" onClick={() => {
                 }}/>
                 <h1 className="text-2xl font-bold">Transaction Details</h1>
             </div>
@@ -88,7 +89,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         </span>
                     </div>
                     <div className="bg-blue-500 text-white rounded-full p-2 text-center">
-                        <div className="text-2xl font-bold">{transactionData.epoch}</div>
+                        <div className="text-2xl font-bold">{transactionData.epoch_no}</div>
                         <div className="text-xs">Epoch</div>
                     </div>
                 </CardHeader>
@@ -104,27 +105,27 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         </div>
                         <div>
                             <p className="font-semibold">Created At</p>
-                            <p>{new Date(transactionData.createdAt).toLocaleString()}</p>
+                            <p>{new Date(transactionData.created_at).toLocaleString()}</p>
                         </div>
                         <div>
                             <p className="font-semibold">Confirmations</p>
-                            <p>{transactionData.confirmations}</p>
+                            <p>TBD</p>
                         </div>
                         <div>
                             <p className="font-semibold">Total Output</p>
-                            <p>{transactionData.totalOutput} A</p>
+                            <p>{transactionData.total_output.toLocaleString()} A</p>
                         </div>
                         <div>
                             <p className="font-semibold">Transaction Fees</p>
-                            <p>{transactionData.fee} A</p>
+                            <p>{transactionData.fees} A</p>
                         </div>
                         <div>
                             <p className="font-semibold">Block</p>
-                            <p>{transactionData.blockNumber}</p>
+                            <p>{transactionData.block_no}</p>
                         </div>
                         <div>
                             <p className="font-semibold">Slot - Absolute Slot</p>
-                            <p>{transactionData.slot} - {transactionData.absoluteSlot}</p>
+                            <p>{transactionData.slot_no} - {transactionData.absolute_slot_no}</p>
                         </div>
                     </div>
                 </CardContent>
@@ -139,29 +140,38 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('summary')}>
                             <div className="flex justify-between items-center">
                                 <span>View Summary</span>
-                                {expandedSections['summary'] ? <ChevronUpIcon className="h-5 w-5"/> :
-                                    <ChevronDownIcon className="h-5 w-5"/>}
+                                {expandedSections['summary'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <div className="mt-4 space-y-4">
-                                {transactionData.inputs.map((input, index) => (
-                                    <TransactionSummaryItem
-                                        key={index}
-                                        address={input.address}
-                                        sent={input.amount}
-                                        received={0}
-                                    />
-                                ))}
-                                {transactionData.outputs.map((output, index) => (
-                                    <TransactionSummaryItem
-                                        key={index}
-                                        address={output.address}
-                                        sent={0}
-                                        received={output.amount}
-                                    />
-                                ))}
-                            </div>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Address</TableHead>
+                                        <TableHead>ADA Sent/Received</TableHead>
+                                        <TableHead>Tokens Sent</TableHead>
+                                        <TableHead>Tokens Received</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {[...transactionData.inputs, ...transactionData.outputs].map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Link href={`/addresses/${item.address}`} className="text-blue-500 hover:underline">
+                                                    {shortenAddress(item.address)}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                <span className={item.amount > 0 ? 'text-green-500' : item.amount < 0 ? 'text-red-500' : 'text-gray-500'}>
+                                                    {Math.abs(item.amount)} A
+                                                </span>
+                                            </TableCell>
+                                            <TableCell>0</TableCell>
+                                            <TableCell>0</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                         </CollapsibleContent>
                     </Collapsible>
                 </CardContent>
@@ -176,24 +186,22 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('inputs')}>
                             <div className="flex justify-between items-center">
                                 <span>Inputs</span>
-                                {expandedSections['inputs'] ? <ChevronUpIcon className="h-5 w-5"/> :
-                                    <ChevronDownIcon className="h-5 w-5"/>}
+                                {expandedSections['inputs'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <UTXOTable utxos={transactionData.inputs} type="input"/>
+                            <UTXOTable utxos={transactionData.inputs} type="input" />
                         </CollapsibleContent>
                     </Collapsible>
                     <Collapsible className="mt-4">
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('outputs')}>
                             <div className="flex justify-between items-center">
                                 <span>Outputs</span>
-                                {expandedSections['outputs'] ? <ChevronUpIcon className="h-5 w-5"/> :
-                                    <ChevronDownIcon className="h-5 w-5"/>}
+                                {expandedSections['outputs'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <UTXOTable utxos={transactionData.outputs} type="output"/>
+                            <UTXOTable utxos={transactionData.outputs} type="output" />
                         </CollapsibleContent>
                     </Collapsible>
                 </CardContent>
@@ -202,43 +210,39 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
     );
 };
 
-const TransactionSummaryItem: React.FC<{ address: string; sent: number; received: number }> = ({
-                                                                                                   address,
-                                                                                                   sent,
-                                                                                                   received
-                                                                                               }) => (
-    <div className="flex items-center space-x-4 p-4 bg-gray-100 rounded-lg">
-        <ClipboardIcon className="h-8 w-8 text-blue-500"/>
-        <div>
-            <p className="font-semibold">{shortenAddress(address)}</p>
-            <p>ADA Sent: {sent} A</p>
-            <p>ADA Received: {received} A</p>
-            <p>Tokens Sent: 0</p>
-            <p>Tokens Received: 0</p>
-        </div>
-    </div>
-);
-
-const UTXOTable: React.FC<{ utxos: UTXOInfo[]; type: 'input' | 'output' }> = ({utxos, type}) => (
+const UTXOTable: React.FC<{ utxos: UTXOInfo[]; type: 'input' | 'output' }> = ({ utxos, type }) => (
     <Table>
         <TableHeader>
             <TableRow>
                 <TableHead>Address</TableHead>
                 <TableHead>Amount</TableHead>
                 {type === 'input' && <TableHead>UTXO Hash</TableHead>}
+                {type === 'input' && <TableHead>Index</TableHead>}
             </TableRow>
         </TableHeader>
         <TableBody>
             {utxos.map((utxo, index) => (
                 <TableRow key={index}>
-                    <TableCell>{shortenAddress(utxo.address)}</TableCell>
+                    <TableCell>
+                        <Link href={`/addresses/${utxo.address}`} className="text-blue-500 hover:underline">
+                            {shortenAddress(utxo.address)}
+                        </Link>
+                    </TableCell>
                     <TableCell>{utxo.amount} A</TableCell>
-                    {type === 'input' && utxo.utxo_hash && <TableCell>{shortenAddress(utxo.utxo_hash)}</TableCell>}
+                    {type === 'input' && utxo.utxo_hash && (
+                        <TableCell>
+                            <Link href={`/transactions/${utxo.utxo_hash}`} className="text-blue-500 hover:underline">
+                                {shortenAddress(utxo.utxo_hash)}
+                            </Link>
+                        </TableCell>
+                    )}
+                    {type === 'input' && <TableCell>{utxo.utxo_index}</TableCell>}
                 </TableRow>
             ))}
             <TableRow className="font-bold bg-blue-50">
                 <TableCell>Total</TableCell>
                 <TableCell>{calculateTotal(utxos)} A</TableCell>
+                {type === 'input' && <TableCell></TableCell>}
                 {type === 'input' && <TableCell></TableCell>}
             </TableRow>
         </TableBody>

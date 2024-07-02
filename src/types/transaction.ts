@@ -10,23 +10,31 @@ export interface Transaction {
     output_addresses: string[];
 }
 
-export interface UTXOInfo {
+export interface InputUTXOInfo {
+    address: string;
+    stake_address: string;
+    amount: number;
+    utxo_index: number;
+    utxo_hash?: string;
+}
+
+export interface OutputUTXOInfo {
     address: string;
     amount: number;
     utxo_hash?: string;
 }
 
+
 export interface TransactionDetails {
     hash: string;
     status: 'SUCCESS' | 'FAILED';
-    createdAt: string;
-    totalOutput: number;
-    fee: number;
-    blockNumber: number;
-    slot: number;
-    absoluteSlot: number;
-    epoch: number;
-    confirmations: number;
-    inputs: UTXOInfo[];
-    outputs: UTXOInfo[];
+    created_at: string;
+    total_output: number;
+    fees: number;
+    block_no: number;
+    slot_no: number;
+    absolute_slot_no: number;
+    epoch_no: number;
+    inputs: InputUTXOInfo[];
+    outputs: OutputUTXOInfo[];
 }
