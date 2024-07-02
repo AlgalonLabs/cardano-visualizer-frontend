@@ -35,11 +35,11 @@ export const columns: ColumnDef<Transaction>[] = [
         ),
     },
     {
-        accessorKey: "block_hash",
+        accessorKey: "block_no",
         header: "Block",
         cell: ({row}) => (
-            <Link href={`/blocks/${row.getValue("block_hash")}`} className="text-blue-500 hover:underline">
-                {(row.getValue("block_hash") as string).substring(0, 8)}...
+            <Link href={`/blocks/${row.getValue("block_no")}`} className="text-blue-500 hover:underline">
+                {(row.getValue("block_no") as string).substring(0, 8)}...
             </Link>
         ),
     },
