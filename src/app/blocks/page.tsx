@@ -1,13 +1,13 @@
 'use client'
 
-import React, {useEffect, useState} from 'react';
-import {columns} from './columns';
-import {DataTable} from "@/app/blocks/data-table";
-import {ColumnDef, PaginationState} from '@tanstack/react-table';
-import {CellType} from "@/types/data-table";
+import React, { useEffect, useState } from 'react';
+import { columns } from './columns';
+import { DataTable } from "@/app/blocks/data-table";
+import { ColumnDef, PaginationState, CellContext } from '@tanstack/react-table';
+import { CellType } from "@/types/data-table";
 import SheetWrapper from "@/components/ui/sheet-wrapper";
 import BlockDetails from "@/components/details/block-details";
-import {Block} from "@/types/block";
+import { Block } from "@/types/block";
 
 const BlocksPage: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
@@ -43,13 +43,15 @@ const BlocksPage: React.FC = () => {
 
     const enhancedColumns: ColumnDef<Block>[] = columns.map(column => ({
         ...column,
-        cell: (props) => {
-            const cellContent = (column.cell as CellType<Block>);
+        cell: (props: CellContext<Block, unknown>) => {
+            const cellContent = column.cell as CellType<Block> | undefined;
             return (
                 <SheetWrapper
                     trigger={
                         <div onClick={() => handleRowClick(props.row.original)} className="cursor-pointer">
-                            {typeof cellContent === 'function' ? cellContent(props) : props.getValue()}
+                            {typeof cellContent === 'function'
+                                ? cellContent(props)
+                                : renderCellValue(props.getValue())}
                         </div>
                     }
                     title="Block Details"
@@ -59,6 +61,18 @@ const BlocksPage: React.FC = () => {
             );
         }
     }));
+
+    const renderCellValue = (value: unknown): React.ReactNode => {
+        if (value == null) return null;
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            return String(value);
+        }
+        if (React.isValidElement(value)) {
+            return value;
+        }
+        // For other types, you might want to add more specific handling
+        return JSON.stringify(value);
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -77,4 +91,5 @@ const BlocksPage: React.FC = () => {
         </div>
     );
 };
+
 export default BlocksPage;

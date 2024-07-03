@@ -1,4 +1,6 @@
-export const cytoscapeStylesheet = [
+import {NodeSingular, Stylesheet} from "cytoscape";
+
+export const cytoscapeStylesheet: Stylesheet[] = [
     {
         selector: 'node',
         style: {
@@ -19,7 +21,7 @@ export const cytoscapeStylesheet = [
         style: {
             'background-color': '#A7C7E7',
             'shape': 'round-rectangle',
-            'label': function (ele) {
+            'label': function (ele: NodeSingular) {
                 const id = ele.data('id');
                 return id.substring(0, 6) + '...' + id.substring(id.length - 4);
             }
@@ -30,7 +32,7 @@ export const cytoscapeStylesheet = [
         style: {
             'background-color': '#FFD8B1',
             'shape': 'diamond',
-            'label': function (ele) {
+            'label': function (ele: NodeSingular) {
                 const hash = ele.data('id');
                 return hash.substring(0, 6) + '...' + hash.substring(hash.length - 4);
             }
@@ -41,7 +43,7 @@ export const cytoscapeStylesheet = [
         style: {
             'background-color': '#FFF0F5',
             'shape': 'ellipse',
-            'label': function (ele) {
+            'label': function (ele: NodeSingular) {
                 const id = ele.data('id');
                 return 'UTXO ' + id.substring(0, 4) + '...' + id.substring(id.length - 4);
             }
@@ -52,7 +54,7 @@ export const cytoscapeStylesheet = [
         style: {
             'background-color': '#E6E6FA',
             'shape': 'octagon',
-            'label': function (ele) {
+            'label': function (ele: NodeSingular) {
                 const id = ele.data('id');
                 return 'Stake ' + id.substring(0, 4) + '...' + id.substring(id.length - 4);
             }
