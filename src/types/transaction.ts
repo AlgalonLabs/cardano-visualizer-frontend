@@ -1,6 +1,7 @@
 export interface Transaction {
     tx_hash: string;
     block_hash: string;
+    block_no: number;
     epoch_no: number;
     slot_no: number;
     absolute_slot: number;
@@ -24,7 +25,14 @@ export interface OutputUTXOInfo {
     utxo_hash?: string;
 }
 
+interface SummaryItem {
+    address: string;
+    net_amount: number;
+    tokens_sent: number;
+    tokens_received: number;
+}
 
+//  Used for the transaction details page
 export interface TransactionDetails {
     hash: string;
     status: 'SUCCESS' | 'FAILED';
@@ -35,6 +43,7 @@ export interface TransactionDetails {
     slot_no: number;
     absolute_slot_no: number;
     epoch_no: number;
+    summary: SummaryItem[];
     inputs: InputUTXOInfo[];
     outputs: OutputUTXOInfo[];
 }

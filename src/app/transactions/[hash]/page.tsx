@@ -6,10 +6,10 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {fetchApi} from "@/utils/api-client";
 import {useToast} from "@/hooks/use-toast";
 import LoadingSpinner from "@/components/ui/loading-spinner";
-import {ArrowLeftIcon, ChevronDownIcon, ChevronUpIcon, ClipboardIcon} from 'lucide-react';
+import {ArrowDownIcon, ArrowLeftIcon, ArrowUpIcon, ChevronDownIcon, ChevronUpIcon, ClipboardIcon} from 'lucide-react';
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/ui/collapsible";
 import {shortenAddress} from "@/utils/address";
-import {UTXOInfo, TransactionDetails} from "@/types/transaction";
+import {TransactionDetails} from "@/types/transaction";
 import {calculateTotal} from "@/utils/transactions";
 import Link from "next/link";
 
@@ -61,7 +61,6 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
     };
 
 
-
     if (isLoading) return <LoadingSpinner/>;
     if (!transactionData) return <div>No data available</div>;
 
@@ -69,6 +68,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
         <div className="container mx-auto px-4 py-8">
             <div className="flex items-center mb-4">
                 <ArrowLeftIcon className="h-6 w-6 mr-2 cursor-pointer" onClick={() => {
+                    window.history.back();
                 }}/>
                 <h1 className="text-2xl font-bold">Transaction Details</h1>
             </div>
@@ -113,11 +113,11 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         </div>
                         <div>
                             <p className="font-semibold">Total Output</p>
-                            <p>{transactionData.total_output.toLocaleString()} A</p>
+                            <p>{transactionData.total_output.toLocaleString()} ₳</p>
                         </div>
                         <div>
                             <p className="font-semibold">Transaction Fees</p>
-                            <p>{transactionData.fees} A</p>
+                            <p>{transactionData.fees} ₳</p>
                         </div>
                         <div>
                             <p className="font-semibold">Block</p>
@@ -140,7 +140,8 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('summary')}>
                             <div className="flex justify-between items-center">
                                 <span>View Summary</span>
-                                {expandedSections['summary'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+                                {expandedSections['summary'] ? <ChevronUpIcon className="h-5 w-5"/> :
+                                    <ChevronDownIcon className="h-5 w-5"/>}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
@@ -148,26 +149,31 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Address</TableHead>
-                                        <TableHead>ADA Sent/Received</TableHead>
+                                        <TableHead>ADA Net Amount</TableHead>
                                         <TableHead>Tokens Sent</TableHead>
                                         <TableHead>Tokens Received</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {[...transactionData.inputs, ...transactionData.outputs].map((item, index) => (
+                                    {transactionData.summary.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>
-                                                <Link href={`/addresses/${item.address}`} className="text-blue-500 hover:underline">
+                                                <Link href={`/addresses/${item.address}`}
+                                                      className="text-blue-500 hover:underline">
                                                     {shortenAddress(item.address)}
                                                 </Link>
                                             </TableCell>
                                             <TableCell>
-                                                <span className={item.amount > 0 ? 'text-green-500' : item.amount < 0 ? 'text-red-500' : 'text-gray-500'}>
-                                                    {Math.abs(item.amount)} A
+                                                <span
+                                                    className={`flex items-center ${item.net_amount > 0 ? 'text-green-500' : item.net_amount < 0 ? 'text-red-500' : 'text-gray-500'}`}>
+                                                    {item.net_amount > 0 ?
+                                                        <ArrowUpIcon className="mr-1"/> : item.net_amount < 0 ?
+                                                            <ArrowDownIcon className="mr-1"/> : null}
+                                                    {Math.abs(item.net_amount)} ₳
                                                 </span>
                                             </TableCell>
-                                            <TableCell>0</TableCell>
-                                            <TableCell>0</TableCell>
+                                            <TableCell>{item.tokens_sent}</TableCell>
+                                            <TableCell>{item.tokens_received}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -186,22 +192,24 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('inputs')}>
                             <div className="flex justify-between items-center">
                                 <span>Inputs</span>
-                                {expandedSections['inputs'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+                                {expandedSections['inputs'] ? <ChevronUpIcon className="h-5 w-5"/> :
+                                    <ChevronDownIcon className="h-5 w-5"/>}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <UTXOTable utxos={transactionData.inputs} type="input" />
+                            <UTXOTable utxos={transactionData.inputs} type="input"/>
                         </CollapsibleContent>
                     </Collapsible>
                     <Collapsible className="mt-4">
                         <CollapsibleTrigger className="w-full" onClick={() => toggleSection('outputs')}>
                             <div className="flex justify-between items-center">
                                 <span>Outputs</span>
-                                {expandedSections['outputs'] ? <ChevronUpIcon className="h-5 w-5" /> : <ChevronDownIcon className="h-5 w-5" />}
+                                {expandedSections['outputs'] ? <ChevronUpIcon className="h-5 w-5"/> :
+                                    <ChevronDownIcon className="h-5 w-5"/>}
                             </div>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <UTXOTable utxos={transactionData.outputs} type="output" />
+                            <UTXOTable utxos={transactionData.outputs} type="output"/>
                         </CollapsibleContent>
                     </Collapsible>
                 </CardContent>
@@ -210,7 +218,7 @@ const TransactionDetailsPage: React.FC<PageProps> = ({params}) => {
     );
 };
 
-const UTXOTable: React.FC<{ utxos: UTXOInfo[]; type: 'input' | 'output' }> = ({ utxos, type }) => (
+const UTXOTable: React.FC<{ utxos: any[]; type: 'input' | 'output' }> = ({utxos, type}) => (
     <Table>
         <TableHeader>
             <TableRow>

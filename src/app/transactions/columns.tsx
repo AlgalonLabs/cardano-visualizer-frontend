@@ -38,8 +38,8 @@ export const columns: ColumnDef<Transaction>[] = [
         accessorKey: "block_no",
         header: "Block",
         cell: ({row}) => (
-            <Link href={`/blocks/${row.getValue("block_no")}`} className="text-blue-500 hover:underline">
-                {(row.getValue("block_no") as string).substring(0, 8)}...
+            <Link href={`/blocks/${row.original.block_hash}`} className="text-blue-500 hover:underline">
+                {row.getValue("block_no")}
             </Link>
         ),
     },
@@ -57,7 +57,7 @@ export const columns: ColumnDef<Transaction>[] = [
         header: "Slot",
     },
     {
-        accessorKey: "absolute_slot",
+        accessorKey: "absolute_slot_no",
         header: "Absolute Slot",
     },
     {
@@ -75,15 +75,12 @@ export const columns: ColumnDef<Transaction>[] = [
         },
         cell: ({row}) => {
             const fees = parseFloat(row.getValue("fees"));
-            const formatted = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'ADA',
-            }).format(fees);
+            const formatted = `${fees.toFixed(4)} ₳`
             return <div className="text-right font-medium">{formatted}</div>
         },
     },
     {
-        accessorKey: "output_ada",
+        accessorKey: "total_output",
         header: ({column}) => {
             return (
                 <Button
@@ -96,11 +93,8 @@ export const columns: ColumnDef<Transaction>[] = [
             )
         },
         cell: ({row}) => {
-            const amount = parseFloat(row.getValue("output_ada"));
-            const formatted = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'ADA',
-            }).format(amount);
+            const amount = parseFloat(row.getValue("total_output"));
+            const formatted = `${amount.toFixed(4)} ₳`
             return <div className="text-right font-medium">{formatted}</div>
         },
     },
