@@ -1,10 +1,16 @@
 import {ColumnDef} from "@tanstack/react-table";
 import {AddressRow} from "@/types/address";
+import Link from "next/link";
 
 export const columns: ColumnDef<AddressRow>[] = [
     {
         accessorKey: "address",
         header: "Address",
+        cell: ({row}) => (
+            <Link href={`/addresses/${row.getValue("address")}`} className="text-blue-500 hover:underline">
+                {(row.getValue("address") as string).substring(0, 8)}...
+            </Link>
+        )
     },
     {
         accessorKey: "balance",
