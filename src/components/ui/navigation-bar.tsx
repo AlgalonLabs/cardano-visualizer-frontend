@@ -18,10 +18,10 @@ const blockchainItems: { title: string; href: string; description: string }[] = 
     {title: 'Blocks', href: '/blocks', description: 'View all blocks'},
     {title: 'Epochs', href: '/epochs', description: 'View all epochs'},
     {title: 'Transactions', href: '/transactions', description: 'View all transactions'},
+    {title: 'Addresses', href: '/addresses', description: 'View all holders'},
     {title: 'Native Tokens', href: '/native-tokens', description: 'View all native tokens'},
     {title: 'Smart Contracts', href: '/smart-contracts', description: 'View all smart contracts'},
     {title: 'Pools', href: '/pools', description: 'View all pools'},
-    {title: 'Holders', href: '/holders', description: 'View all holders'},
 ];
 
 export function NavigationBar() {
